@@ -1,34 +1,68 @@
+"use client";
+
+import { useEffect } from "react";
+import BackgroundEffects from "@/components/layout/BackgroundEffects";
+import Footer from "@/components/layout/Footer";
+import Hero from "@/components/hero/Hero";
+import WhatsInside from "@/components/home/WhatsInside";
+import FeaturedBoxes from "@/components/home/FeaturedBoxes";
+import UnboxingPreview from "@/components/home/UnboxingPreview";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
+import HowItWorks from "@/components/home/HowItWorks";
+import Newsletter from "@/components/home/Newsletter";
+import SmoothScroll from "@/components/scroll/SmoothScroll";
+
 export default function Home() {
+
+useEffect(() => {
+  const hash = window.location.hash;
+
+  if (!hash) return;
+
+  const scrollToSection = () => {
+    const element = document.getElementById(hash.replace("#", ""));
+
+    if (!element) return;
+
+    const navbarOffset = 90;
+
+    const elementPosition =
+      element.getBoundingClientRect().top + window.scrollY;
+
+    window.scrollTo({
+      top: elementPosition - navbarOffset,
+      behavior: "smooth",
+    });
+  };
+
+  const timer = window.setTimeout(scrollToSection, 100);
+
+  return () => window.clearTimeout(timer);
+}, []);
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-purple-900 via-violet-700 to-pink-500 flex items-center justify-center px-6">
-      <div className="max-w-xl w-full rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl p-10 text-center text-white">
+    <main className="relative min-h-screen overflow-x-clip bg-gradient-to-br from-[#6A11CB] via-[#8E44AD] to-[#F15BB5]">
+      <SmoothScroll />
+      <BackgroundEffects />
 
-        <div className="text-6xl mb-6">✨</div>
+      <div className="relative z-10">
+  <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Hero />
 
-        <h1 className="text-5xl font-bold mb-4">
-          Mystery Scoop Delight
-        </h1>
+          <WhatsInside />
 
-        <p className="text-xl text-purple-100 mb-8">
-          Beauty is on its way.
-        </p>
+          <FeaturedBoxes />
 
-        <div className="bg-white/10 rounded-xl p-6 mb-8">
-          <h2 className="text-2xl font-semibold mb-3">
-            🚀 Coming Soon
-          </h2>
+          <UnboxingPreview />
 
-          <p className="text-purple-100 leading-7">
-            We're creating a premium destination for personal cosmetic products.
-            Stay tuned for carefully selected beauty essentials that bring confidence,
-            elegance, and everyday delight.
-          </p>
+          <WhyChooseUs />
+
+          <HowItWorks />
+
+          <Newsletter />
+
+          <Footer />
         </div>
-
-        <p className="text-sm text-purple-200">
-          © 2026 Mystery Scoop Delight
-        </p>
-
       </div>
     </main>
   );
